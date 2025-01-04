@@ -171,6 +171,29 @@
             border-radius: 50%;
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
         }
+
+        a {
+            color: #7ee787;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        a:hover {
+            color: #2ea043;
+            background: rgba(126, 231, 135, 0.1);
+        }
+
+        .important a {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .important a:hover {
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffed4a;
+        }
     </style>
 </head>
 
@@ -179,7 +202,8 @@
         <h1>手动替换Cursor设备 ID</h1>
 
         <sup>
-            C:\Users\[用户]\AppData\Roaming\Cursor\User\globalStorage\storage.json <a href="https://www.bilibili.com/video/BV1H3ktYtEUy/" target="_blank">视频教程</a>
+            C:\Users\[用户]\AppData\Roaming\Cursor\User\globalStorage\storage.json <a
+                href="https://www.bilibili.com/video/BV1H3ktYtEUy/" target="_blank">视频教程</a>
         </sup>
 
         <div class="json-block" id="json-block"></div>
