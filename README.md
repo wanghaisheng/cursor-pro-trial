@@ -11,7 +11,7 @@
 ## 使用步骤
 
 1. 退出cursor的登录账号，确保 Cursor 完全关闭（包括后台进程），一般关闭Cursor就可以了。
-2. 打开工具页面，点击"重新生成 ID"按钮。页面地址在[这里](https:///)。或看简介链接
+2. 打开工具页面，点击"重新生成 ID"按钮。页面地址在[这里](https://cursor-id.duu.men/),或看简介链接
 3. 根据您的操作系统，找到并打开对应的配置文件：
    - Windows（win键+R，输入）: `%APPDATA%\Cursor\User\globalStorage\storage.json`
    - macOS: `~/Library/Application Support/Cursor/User/globalStorage/storage.json`
