@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cursor 设备标识生成器</title>
+    <style>
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+            color: #d6d6dd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .container {
+            background: rgba(44, 44, 44, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            width: 85%;
+            max-width: 800px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 25px;
+            font-size: 2.2em;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(45deg, #fff, #d6d6dd);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        sup {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            color: #aaa;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .json-block {
+            background-color: rgba(30, 30, 30, 0.95);
+            color: #d6d6dd;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: "Fira Code", "Cascadia Code", monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 25px 0;
+            overflow-x: auto;
+            max-width: 100%;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            background: linear-gradient(45deg, #2ea043, #347d39);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            margin: 20px 0;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(46, 160, 67, 0.2);
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #3ab54d, #3b8b40);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(46, 160, 67, 0.3);
+        }
+
+        button:active {
+            transform: scale(0.95) translateY(0);
+        }
+
+        .important {
+            color: #ffd700;
+            font-weight: bold;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.2);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 215, 0, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+            }
+        }
+
+        .tip {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tip code,
+        .tip .path {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-family: "Fira Code", "Cascadia Code", monospace;
+            color: #f0f0f0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .github-btn {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(45deg, #333, #444);
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin-top: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .github-btn:hover {
+            background: linear-gradient(45deg, #444, #555);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .github-btn:active {
+            transform: scale(0.95);
+        }
+
+        .github-btn img {
+            width: 24px;
+            margin-right: 12px;
+            border-radius: 50%;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>手动替换设备 ID</h1>
+
+        <sup>
+            C:\Users\[用户]\AppData\Roaming\Cursor\User\globalStorage\storage.json
+        </sup>
+
+        <div class="json-block" id="json-block"></div>
+
+        <button id="regenerate-btn">重新生成 ID</button>
+
+        <div class="tip">
+            <p>
+                <strong>提示：</strong> 你可以通过按
+                <strong>WIN + R</strong> 并粘贴以下路径来快速打开
+                <code class="path">%APPDATA%\Cursor\User\globalStorage\storage.json</code>
+                文件。
+            </p>
+        </div>
+
+        <p class="important">
+            在运行脚本之前，你必须先退出并完全关闭 Cursor。
+            如果 Cursor 在后台运行，它可能会恢复到之前的设备 ID，使重置无效。
+        </p>
+
+        <a href="https://github.com/aigem/cursor-pro-trial" class="github-btn" target="_blank">
+            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" />
+            在 GitHub 上查看
+        </a>
+    </div>
+
+    <script>
+        function getRandHex() {
+            let array = new Uint8Array(32);
+            window.crypto.getRandomValues(array);
+            return Array.from(array)
+                .map((byte) => byte.toString(16).padStart(2, "0"))
+                .join("");
+        }
+
+        function getGuid() {
+            return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+                /[xy]/g,
+                function (c) {
+                    let r = (Math.random() * 16) | 0;
+                    let v = c === "x" ? r : (r & 0x3) | 0x8;
+                    return v.toString(16);
+                }
+            );
+        }
+
+        function regenerateJSON() {
+            const jsonStructure = {
+                "telemetry.macMachineId": getRandHex(),
+                "telemetry.machineId": getRandHex(),
+                "telemetry.devDeviceId": getGuid(),
+            };
+
+            const jsonBlock = document.getElementById("json-block");
+            jsonBlock.textContent = JSON.stringify(jsonStructure, null, 4);
+        }
+
+        document
+            .getElementById("regenerate-btn")
+            .addEventListener("click", regenerateJSON);
+
+        regenerateJSON();
+    </script>
+</body>
+
+</html>
