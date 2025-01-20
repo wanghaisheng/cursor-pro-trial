@@ -1,3 +1,5 @@
+how to  cursor
+
 # Cursor 设备标识生成器
 
 一个安全、简便、快捷的 Cursor Pro Trial 设备标识重置工具。
